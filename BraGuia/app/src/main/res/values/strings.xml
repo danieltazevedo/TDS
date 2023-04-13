@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BraGuia</string>
     <string name="map_key" translatable="false">AIzaSyCCC_fAp_0bloz8XP2Hd-9-f6dIvTF0KpU</string>
+    <string name="url_app_info">https://c5a2-193-137-92-29.eu.ngrok.io/app</string>
 </resources>

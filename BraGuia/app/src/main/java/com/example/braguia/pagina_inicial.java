@@ -23,6 +23,7 @@ public class pagina_inicial extends AppCompatActivity {
     private static final String CACHE_KEY = "json_cache";
     private SharedPreferences mSharedPreferences;
     private Button LoginButton;
+    private Button Contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,17 @@ public class pagina_inicial extends AppCompatActivity {
 
         });
 
-        mSharedPreferences = getPreferences(MODE_PRIVATE);
+        Contacts = findViewById(R.id.contacts);
+        Contacts.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(pagina_inicial.this, Contacts.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        mSharedPreferences = getSharedPreferences("app_info", MODE_PRIVATE);
         String cachedJson = mSharedPreferences.getString(CACHE_KEY, null);
 
         if (cachedJson != null) {

@@ -40,12 +40,15 @@ public class RecyclerItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
+
         if(headerView==null)
         {
             headerView = inflateHeader(parent);
             tvTitle = (TextView)headerView.findViewById(R.id.text_header_name);
+            headerView.setBackgroundColor(11111);
             fixLayoutSize(headerView,parent);
         }
+
         String prevTitle = "";
         for(int i=0;i<parent.getChildCount();i++)
         {
@@ -53,13 +56,13 @@ public class RecyclerItemDecoration extends RecyclerView.ItemDecoration {
             int childPos = parent.getChildAdapterPosition(child);
             String title = sectionCallback.getSectionHeaderName(childPos);
             tvTitle.setText(title);
+            headerView.setBackgroundColor(11111);
             if(!prevTitle.equalsIgnoreCase(title) || sectionCallback.isSection(childPos))
             {
                 drawHeader(c,child,headerView);
                 prevTitle = title;
             }
         }
-
     }
 
     private void drawHeader(Canvas c, View child, View headerView) {

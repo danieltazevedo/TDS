@@ -9,8 +9,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="259dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/back"
@@ -19,3 +19,4 @@
         android:layout_gravity="center_horizontal|bottom"
         android:text="Back" />
 </LinearLayout>
+

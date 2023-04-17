@@ -24,6 +24,8 @@ public class pagina_inicial extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     private Button LoginButton;
     private Button Contacts;
+    private Button Partners;
+    private Button Socials;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,26 @@ public class pagina_inicial extends AppCompatActivity {
             }
         });
 
+        Partners = findViewById(R.id.partners);
+        Partners.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(pagina_inicial.this, Partners.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        Socials = findViewById(R.id.socials);
+        Socials.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(pagina_inicial.this, Socials.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         mSharedPreferences = getSharedPreferences("app_info", MODE_PRIVATE);
         String cachedJson = mSharedPreferences.getString(CACHE_KEY, null);
 
@@ -60,7 +82,7 @@ public class pagina_inicial extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            new JsonTask().execute(getString(R.string.url_app_info));
+            new JsonTask().execute("https://c5a2-193-137-92-29.eu.ngrok.io/app");
         }
     }
 

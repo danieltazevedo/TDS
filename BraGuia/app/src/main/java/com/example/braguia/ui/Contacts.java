@@ -1,4 +1,4 @@
-package com.example.braguia;
+package com.example.braguia.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.braguia.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

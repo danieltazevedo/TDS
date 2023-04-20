@@ -1,4 +1,4 @@
-package com.example.braguia;
+package com.example.braguia.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.braguia.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +49,7 @@ public class pagina_inicial extends AppCompatActivity {
         Contacts.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(pagina_inicial.this, Contacts.class);
+                Intent intent = new Intent(pagina_inicial.this, com.example.braguia.ui.Contacts.class);
                 startActivity(intent);
                 finish();
             }
@@ -56,7 +59,7 @@ public class pagina_inicial extends AppCompatActivity {
         Partners.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(pagina_inicial.this, Partners.class);
+                Intent intent = new Intent(pagina_inicial.this, com.example.braguia.ui.Partners.class);
                 startActivity(intent);
                 finish();
             }
@@ -66,7 +69,7 @@ public class pagina_inicial extends AppCompatActivity {
         Socials.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(pagina_inicial.this, Socials.class);
+                Intent intent = new Intent(pagina_inicial.this, com.example.braguia.ui.Socials.class);
                 startActivity(intent);
                 finish();
             }

@@ -11,26 +11,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/map_key"/>
-        <activity android:name=".pagina_inicial"
+        <activity android:name=".ui.pagina_inicial"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"
+        <activity android:name=".ui.LoginActivity"
             android:exported="true">
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".ui.MainActivity"
             android:exported="true">
         </activity>
-        <activity android:name=".Contacts"
+        <activity android:name=".ui.Contacts"
             android:exported="true">
         </activity>
-        <activity android:name=".Partners"
+        <activity android:name=".ui.Partners"
             android:exported="true">
         </activity>
-        <activity android:name=".Socials"
+        <activity android:name=".ui.Socials"
+            android:exported="true">
+        </activity>
+        <activity android:name=".ui.Trails_activity"
             android:exported="true">
         </activity>
     </application>

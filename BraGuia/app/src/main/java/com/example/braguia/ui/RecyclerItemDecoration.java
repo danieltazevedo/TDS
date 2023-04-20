@@ -1,4 +1,4 @@
-package com.example.braguia;
+package com.example.braguia.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.braguia.R;
 
 public class RecyclerItemDecoration extends RecyclerView.ItemDecoration {
 

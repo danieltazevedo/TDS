@@ -1,4 +1,4 @@
-package com.example.braguia;
+package com.example.braguia.ui;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.braguia.R;
+
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;

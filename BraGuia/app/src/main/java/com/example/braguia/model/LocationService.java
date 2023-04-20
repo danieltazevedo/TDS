@@ -1,4 +1,4 @@
-package com.example.braguia;
+package com.example.braguia.model;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -32,8 +32,8 @@ import com.google.android.gms.location.LocationServices;
 public class LocationService extends Service {
 
     public static final String ACTION_LOCATION_UPDATE = "com.example.myapp.ACTION_LOCATION_UPDATE";
-    static final String ACTION_START_LOCATION_SERVICE = "startLocationService";
-    static final String ACTION_STOP_LOCATION_SERVICE = "stopLocationService";
+    public static final String ACTION_START_LOCATION_SERVICE = "startLocationService";
+    public static final String ACTION_STOP_LOCATION_SERVICE = "stopLocationService";
 
 
 

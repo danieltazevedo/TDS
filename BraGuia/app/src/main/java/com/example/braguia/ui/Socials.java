@@ -1,26 +1,28 @@
-package com.example.braguia;
+package com.example.braguia.ui;
 
 import android.content.Intent;
-        import android.content.SharedPreferences;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.widget.Button;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import com.example.braguia.R;
 
-        import java.util.ArrayList;
-        import java.util.HashMap;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import butterknife.BindView;
-        import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Partners extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class Socials extends AppCompatActivity {
 
     private SharedPreferences mSharedPreferences;
     private static final String CACHE_KEY = "json_cache";
@@ -45,7 +47,7 @@ public class Partners extends AppCompatActivity {
         Back.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Partners.this, pagina_inicial.class);
+                Intent intent = new Intent(Socials.this, pagina_inicial.class);
                 startActivity(intent);
                 finish();
             }
@@ -85,18 +87,17 @@ public class Partners extends AppCompatActivity {
         };
     }
 
-   private void process_Json(String json) throws JSONException {
+    private void process_Json(String json) throws JSONException {
         JSONArray jsonArray = new JSONArray(json);
         JSONObject jsonObject = jsonArray.getJSONObject(0);
-        JSONArray partnersArray = jsonObject.getJSONArray("partners");
-        for (int i=0; i < partnersArray.length(); i++) {
+        JSONArray socialsArray = jsonObject.getJSONArray("socials");
+        for (int i=0; i < socialsArray.length(); i++) {
             HashMap<String,String> dataMAp = new HashMap<>();
-            JSONObject partner = partnersArray.getJSONObject(i);
-            dataMAp.put("Title",partner.getString("partner_name"));
-            dataMAp.put("Desc1","Phone Number: "+partner.getString("partner_phone")+"\n"+"E-Mail: "+partner.getString("partner_mail"));
-            dataMAp.put("Desc2",partner.getString("partner_url"));
+            JSONObject partner = socialsArray.getJSONObject(i);
+            dataMAp.put("Title",partner.getString("social_name"));
+            dataMAp.put("Desc1",partner.getString("social_url"));
+            dataMAp.put("Desc2","");
             dataList.add(dataMAp);
         }
-
     }
 }

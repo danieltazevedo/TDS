@@ -10,21 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aaff2321-6c09-4b98-8a0b-81060c1a2468" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/render.experimental.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/Contacts.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Contacts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/DataAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/DataAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/LocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/model/LocationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/Partners.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Partners.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/RecyclerItemDecoration.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/RecyclerItemDecoration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/Socials.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Socials.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/pagina_inicial.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/pagina_inicial.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/pagina_inicial.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/pagina_inicial.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/model/GuideDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/model/GuideDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/model/Trail.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/model/Trail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/repositories/TrailRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/repositories/TrailRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,9 +69,9 @@
       <list>
         <option value="valueResourceFile" />
         <option value="AnnotationType" />
-        <option value="Class" />
         <option value="layoutResourceFile" />
         <option value="navigationResourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>

@@ -8,9 +8,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-
-
-@Database(entities = {Trail.class}, version = 6)
+@Database(entities = {Trail.class}, version = 7)
 public abstract class GuideDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "BraGuia";

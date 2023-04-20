@@ -64,7 +64,6 @@ public class TrailRepository {
         });
     }
 
-
     public LiveData<List<Trail>> getAllTrails(){
         return allTrails;
     }

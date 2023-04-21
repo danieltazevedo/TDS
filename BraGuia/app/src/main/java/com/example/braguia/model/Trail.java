@@ -5,19 +5,18 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 import androidx.room.TypeConverters;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity(tableName = "trail",indices = @Index(value = {"id"},unique = true))
-public class Trail {
+public class Trail implements Serializable {
 
     @PrimaryKey
     @NonNull
-    //@SerializedName("id")
     @ColumnInfo(name = "id")
     String id;
 
@@ -97,7 +96,7 @@ public class Trail {
         return Objects.hash(id, image_url);
     }
 
-    public class Edge {
+    public class Edge implements Serializable {
         @SerializedName("edge_start")
         Point point_start;
 
@@ -114,7 +113,7 @@ public class Trail {
 
     }
 
-    public class Point {
+    public class Point implements Serializable {
         @SerializedName("id")
         String id;
 
@@ -155,7 +154,7 @@ public class Trail {
 
     }
 
-    public class Media {
+    public class Media implements Serializable {
         @SerializedName("media_file")
         String file;
 

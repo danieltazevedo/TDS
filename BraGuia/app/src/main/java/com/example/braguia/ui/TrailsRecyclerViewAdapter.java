@@ -2,9 +2,12 @@ package com.example.braguia.ui;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,10 +36,20 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
         holder.name.setText(mValues.get(position).getTrail_name());
         holder.desc.setText(mValues.get(position).getTrail_desc());
         Picasso.get().load(mValues.get(position).getUrl().replace("http", "https")).into(holder.imageView);
+        holder.info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, Trail_info.class);
+                Trail a = mValues.get(position);
+                //intent.putExtra("pos", position);
+                intent.putExtra("trail_info", a);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -45,6 +58,7 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        public final Button info;
         public final View mView;
         public final TextView name;
         public final ImageView imageView;
@@ -57,6 +71,7 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
             name = (TextView) view.findViewById(R.id.trail_name);
             imageView = view.findViewById(R.id.cardimage);
             desc = view.findViewById(R.id.trail_desc);
+            info = view.findViewById(R.id.info);
         }
 
         @Override

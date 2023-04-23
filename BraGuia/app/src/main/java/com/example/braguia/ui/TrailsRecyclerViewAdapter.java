@@ -45,7 +45,6 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
                 Context context = view.getContext();
                 Intent intent = new Intent(context, Trail_info.class);
                 Trail a = mValues.get(position);
-                //intent.putExtra("pos", position);
                 intent.putExtra("trail_info", a);
                 context.startActivity(intent);
             }

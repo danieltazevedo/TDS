@@ -1,12 +1,14 @@
 package com.example.braguia.ui;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.Manifest;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,7 +18,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.braguia.R;
+import com.example.braguia.model.DirectionsAsyncTask;
 import com.example.braguia.model.LocationService;
+import com.example.braguia.model.Trail;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,7 +28,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.braguia.model.LocationService;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.DirectionsApi;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.DirectionsResult;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -33,14 +46,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private Marker currentLocationMarker;
     private LocationService locationService;
-    private Button trail;
+    private Button trail_buton;
+    private Trail trail;
+    private Activity mActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mActivity = this;
+        trail = (Trail) getIntent().getSerializableExtra("trail_info");
         getLocationPermission();
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.myMap);
@@ -50,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         serviceIntent.setAction(LocationService.ACTION_START_LOCATION_SERVICE);
         startService(serviceIntent);
 
-        trail = findViewById(R.id.trail);
-        trail.setOnClickListener(new View.OnClickListener() {
+        trail_buton = findViewById(R.id.trail);
+        trail_buton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Trails_activity.class);
@@ -77,6 +95,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            List<Trail.Edge> list = trail.getEdges();
+
+            for (int i = 0; i < list.size(); i++) {
+                Trail.Point start = list.get(i).getpoint_start();
+                Trail.Point end = list.get(i).getpoint_end();
+                double latitude_start = start.getLat();
+                double longitude_start = start.getLng();
+                double latitude_end = end.getLat();
+                double longitude_end = end.getLng();
+                LatLng location_start = new LatLng(latitude_start, longitude_start);
+                LatLng location_end = new LatLng(latitude_end, longitude_end);
+                mMap.addMarker(new MarkerOptions().position(location_start).title(start.getName()));
+
+                DirectionsAsyncTask task = new DirectionsAsyncTask(MainActivity.this,mMap,location_start,location_end);
+                task.execute();
+            }
+
+            Trail.Point end = list.get(list.size() - 1).getpoint_end();
+            double latitude = end.getLat();
+            double longitude = end.getLng();
+            LatLng location_end = new LatLng(latitude, longitude);
+            mMap.addMarker(new MarkerOptions().position(location_end).title(end.getName()));
+
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    Intent intent = new Intent(MainActivity.this, pagina_inicial.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
         }
     }
 

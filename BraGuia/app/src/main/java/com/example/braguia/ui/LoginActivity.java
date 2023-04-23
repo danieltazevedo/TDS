@@ -1,6 +1,9 @@
 package com.example.braguia.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUsernameEditText;
     private EditText mPasswordEditText;
     private Button mLoginButton;
+    private Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,16 @@ public class LoginActivity extends AppCompatActivity {
                 new LoginTask().execute();
             }
         });
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, pagina_inicial.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private class LoginTask extends AsyncTask<Void, Void, String> {
@@ -48,9 +62,12 @@ public class LoginActivity extends AppCompatActivity {
             if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                 return "Please fill in all fields!";
             }
-            try {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && ((NetworkInfo) networkInfo).isConnected()) {
+                try {
                 URL url = new URL("https://c5a2-193-137-92-29.eu.ngrok.io/login");
-                String data = "username="+username+"&password="+password;
+                String data = "username=" + username + "&password=" + password;
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);
@@ -61,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 os.close();
 
                 if (conn.getResponseCode() == 200) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, Trails_activity.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -73,6 +90,10 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Error connecting to server", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
+        }
+            else {
+                return "Please connect to the internet";
+            }
             return "";
         }
 
@@ -80,11 +101,6 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             if (!result.equals("")) {
                 Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
-                if (result.equals("Success")) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
             }
         }
     }

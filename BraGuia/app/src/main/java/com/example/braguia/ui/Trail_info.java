@@ -1,5 +1,6 @@
 package com.example.braguia.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,6 @@ import com.example.braguia.model.Trail;
 import com.squareup.picasso.Picasso;
 
 public class Trail_info extends AppCompatActivity {
-    private Trail trail;
     private TextView trail_name;
     private TextView trail_desc;
     private TextView trail_duration;
@@ -35,16 +35,17 @@ public class Trail_info extends AppCompatActivity {
         imageView = findViewById(R.id.image);
         trail_name.setText(a.getTrail_name());
         trail_desc.setText(a.getTrail_desc());
-        trail_duration.setText("Duration: " + a.getTrail_duration());
+        trail_duration.setText("Duration: " + a.getTrail_duration() + " minutes");
         trail_difficulty.setText("Difficulty: "+a.getTrail_difficulty());
         Picasso.get().load(a.getUrl().replace("http", "https")).into(imageView);
         Start = findViewById(R.id.start);
         Start.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Context context = view.getContext();
                 Intent intent = new Intent(Trail_info.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                intent.putExtra("trail_info", a);
+                context.startActivity(intent);
             }
         });
 

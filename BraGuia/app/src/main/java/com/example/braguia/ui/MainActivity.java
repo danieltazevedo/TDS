@@ -21,6 +21,7 @@ import com.example.braguia.R;
 import com.example.braguia.model.DirectionsAsyncTask;
 import com.example.braguia.model.LocationService;
 import com.example.braguia.model.Trail;
+import com.example.braguia.model.find_Point;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -121,8 +122,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    Intent intent = new Intent(MainActivity.this, pagina_inicial.class);
-                    startActivity(intent);
+                    find_Point fp = new find_Point();
+                    Context context = MainActivity.this;
+                    Intent intent = new Intent(MainActivity.this, Marker_info.class);
+                    intent.putExtra("point_info",fp.encontraPonto(marker.getTitle(),list));
+                    context.startActivity(intent);
                     return true;
                 }
             });

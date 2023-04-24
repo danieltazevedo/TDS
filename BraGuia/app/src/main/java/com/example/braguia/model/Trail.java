@@ -114,9 +114,6 @@ public class Trail implements Serializable {
     }
 
     public class Point implements Serializable {
-        @SerializedName("id")
-        String id;
-
         @SerializedName("pin_name")
         String name;
 
@@ -131,10 +128,6 @@ public class Trail implements Serializable {
 
         @SerializedName("media")
         List<Media> media;
-
-        public String getId() {
-            return id;
-        }
 
         public String getName() {
             return name;
@@ -151,6 +144,8 @@ public class Trail implements Serializable {
         public double getLng() {
             return lng;
         }
+
+        public List<Media> getMedia() {return media;}
 
     }
 

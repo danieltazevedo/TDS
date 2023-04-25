@@ -19,4 +19,11 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"/>
 
+    <Button
+        android:id="@+id/center"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/icon" />
+
+
 </RelativeLayout>

@@ -4,6 +4,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,6 +16,9 @@
 
         >
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/map_key"/>
+        <service
+            android:name=".model.LocationService"
+            android:exported="false"/>
         <activity android:name=".ui.pagina_inicial"
             android:exported="true">
             <intent-filter>

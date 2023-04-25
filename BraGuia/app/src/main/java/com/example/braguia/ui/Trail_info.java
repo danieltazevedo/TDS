@@ -55,7 +55,7 @@ public class Trail_info extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
-                Intent intent = new Intent(Trail_info.this, MainActivity.class);
+                Intent intent = new Intent(Trail_info.this, Maps_Activity.class);
                 intent.putExtra("trail_info", a);
                 context.startActivity(intent);
             }

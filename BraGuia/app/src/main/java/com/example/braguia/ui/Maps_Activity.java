@@ -28,7 +28,7 @@ import com.example.braguia.R;
 import com.example.braguia.model.DirectionsAsyncTask;
 import com.example.braguia.model.LocationService;
 import com.example.braguia.model.Trail;
-import com.example.braguia.model.find_Point;
+import com.example.braguia.model.maps_model;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,7 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_maps);
         mActivity = this;
         trail = (Trail) getIntent().getSerializableExtra("trail_info");
         getLocationPermission();
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         trail_buton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Trails_activity.class);
+                Intent intent = new Intent(Maps_Activity.this, Trails_activity.class);
                 startActivity(intent);
                 finish();
             }
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng location_end = new LatLng(latitude_end, longitude_end);
             mMap.addMarker(new MarkerOptions().position(location_start).title(start.getName()));
 
-            DirectionsAsyncTask task = new DirectionsAsyncTask(MainActivity.this, mMap, location_start, location_end);
+            DirectionsAsyncTask task = new DirectionsAsyncTask(Maps_Activity.this, mMap, location_start, location_end);
             task.execute();
         }
 
@@ -119,10 +119,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                find_Point fp = new find_Point();
-                Context context = MainActivity.this;
-                Intent intent = new Intent(MainActivity.this, Marker_info.class);
-                intent.putExtra("point_info", fp.encontraPonto(marker.getTitle(), list));
+                maps_model mp = new maps_model();
+                Context context = Maps_Activity.this;
+                Intent intent = new Intent(Maps_Activity.this, Marker_info.class);
+                intent.putExtra("point_info", mp.encontraPonto(marker.getTitle(), list));
                 context.startActivity(intent);
                 return true;
             }
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+            ActivityCompat.requestPermissions(Maps_Activity.this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
         }
 
 
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 location = new LatLng(latitude, longitude);
                 if (currentLocationMarker == null) {
                     CircleOptions circleOptions = new CircleOptions()
-                            .fillColor(Color.BLUE)
+                            .fillColor(Color.BLACK)
                             .strokeWidth(0)
                             .center(location)
                             .radius(15);

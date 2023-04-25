@@ -47,6 +47,7 @@
             android:baselineAligned="false"
             android:layout_gravity="center_horizontal" />
 
+
         <Button
             android:id="@+id/Play"
             android:layout_width="wrap_content"

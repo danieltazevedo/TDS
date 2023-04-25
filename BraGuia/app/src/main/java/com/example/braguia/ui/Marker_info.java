@@ -1,8 +1,10 @@
 package com.example.braguia.ui;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,12 +14,18 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.braguia.R;
+import com.example.braguia.model.Audio_Request;
+import com.example.braguia.model.Video_Request;
 import com.example.braguia.model.Trail.Media;
 import com.example.braguia.model.Trail.Point;
 import com.squareup.picasso.Picasso;
-import android.widget.MediaController;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import android.widget.MediaController;
+
 
 public class Marker_info extends AppCompatActivity {
     private Point point;
@@ -46,8 +54,7 @@ public class Marker_info extends AppCompatActivity {
         desc.setText(point.getDesc());
         List<Media> media = point.getMedia();
         Boolean a=true;
-        Boolean b=false;
-        String audio_url = "";
+        Boolean b=true;
 
         for (int i=0;i<media.size();i++) {
             Media aux = media.get(i);
@@ -56,9 +63,8 @@ public class Marker_info extends AppCompatActivity {
             }
             if(aux.getType().equals("V")) {
                 a=false;
-
-                Uri uri = Uri.parse(aux.getFile().replace("http", "https"));
-                videoView.setVideoURI(uri);
+                Video_Request task = new Video_Request(getApplicationContext(),aux.getFile().replace("http", "https"),videoView);
+                task.execute();
 
                 MediaController mediaController = new MediaController(this);
                 mediaController.setAnchorView(videoView);
@@ -75,46 +81,60 @@ public class Marker_info extends AppCompatActivity {
                                 videoView.start();
                             }
                         };
+                    }
+                });
+            }
 
+
+            if(aux.getType().equals("R")) {
+                b=false;
+                File file = new File(Marker_info.this.getCacheDir(), "audio");
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                if(!file.exists()) {
+                if ((networkInfo != null) && ((NetworkInfo) networkInfo).isConnected()) {
+                Audio_Request ar = new Audio_Request(Marker_info.this,aux.getFile().replace("http", "https"));
+                ar.execute(); }}
+
+                play.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        mediaPlayer = new MediaPlayer();
+                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                        try {
+                            mediaPlayer.setDataSource(file.getAbsolutePath());
+                            mediaPlayer.prepare();
+                            mediaPlayer.start();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+
+                pause.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mediaPlayer.isPlaying()) {
+                            mediaPlayer.stop();
+                            mediaPlayer.reset();
+                            mediaPlayer.release();
+
+                            Toast.makeText(Marker_info.this, "Audio has been paused", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Marker_info.this, "Audio has not played", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
             }
 
-            if(aux.getType().equals("R")) {
-                b=true;
-                audio_url = aux.getFile().replace("http", "https");
-            }
-
         }
         if(a) {videoView.setVisibility(View.GONE);}
         if(b) {
-            String finalAudio_url = audio_url;
-            play.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    playAudio(finalAudio_url);
-                }
-            });
-
-            pause.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.stop();
-                        mediaPlayer.reset();
-                        mediaPlayer.release();
-
-                        Toast.makeText(Marker_info.this, "Audio has been paused", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Marker_info.this, "Audio has not played", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
-        else {
             play.setVisibility(View.GONE);
             pause.setVisibility(View.GONE);
+
         }
     }
 

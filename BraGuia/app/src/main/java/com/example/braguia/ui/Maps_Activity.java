@@ -12,8 +12,10 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -67,7 +70,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         botao.setOnClickListener(botaoSOS);
 
         getLocationPermission();
-
+        requestNotificationPermissions();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.myMap);
@@ -151,6 +154,40 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
 
     }
+
+    private void requestNotificationPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create a notification channel
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            String channelId = "MyChannelId";
+            CharSequence channelName = "MyChannelName";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+            notificationManager.createNotificationChannel(channel);
+
+            // Request permission to show notifications
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+            boolean areNotificationsEnabled = notificationManagerCompat.areNotificationsEnabled();
+            if (!areNotificationsEnabled) {
+                Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                startActivity(intent);
+            }
+        } else {
+            // Request permission to show notifications for devices running on Android version lower than Oreo
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+            boolean areNotificationsEnabled = notificationManagerCompat.areNotificationsEnabled();
+            if (!areNotificationsEnabled) {
+                Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .setData(Uri.fromParts("package", getPackageName(), null));
+                startActivity(intent);
+            }
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

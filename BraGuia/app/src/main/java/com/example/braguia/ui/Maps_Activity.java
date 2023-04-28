@@ -23,6 +23,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.example.braguia.model.BotaoSOS;
 import com.example.braguia.model.Trail.Point;
 import com.example.braguia.R;
 import com.example.braguia.model.DirectionsAsyncTask;
@@ -59,6 +61,11 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         setContentView(R.layout.activity_maps);
         mActivity = this;
         trail = (Trail) getIntent().getSerializableExtra("trail_info");
+
+        Button botao = findViewById(R.id.botao_compartilhado);
+        BotaoSOS botaoSOS = new BotaoSOS(this);
+        botao.setOnClickListener(botaoSOS);
+
         getLocationPermission();
 
 

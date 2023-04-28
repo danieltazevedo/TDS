@@ -40,4 +40,6 @@
         android:layout_height="wrap_content"
         android:text="Back"
         android:textColorHighlight="#000000" />
+
+    <include layout="@layout/emergency_button"/>
 </LinearLayout>

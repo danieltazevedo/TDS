@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.braguia.R;
+import com.example.braguia.model.BotaoSOS;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -51,6 +52,10 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Button botao = findViewById(R.id.botao_compartilhado);
+        BotaoSOS botaoSOS = new BotaoSOS(this);
+        botao.setOnClickListener(botaoSOS);
     }
 
     private class LoginTask extends AsyncTask<Void, Void, String> {

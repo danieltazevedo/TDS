@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.braguia.R;
+import com.example.braguia.model.BotaoSOS;
 import com.example.braguia.model.Trail;
 import com.squareup.picasso.Picasso;
 
@@ -37,6 +38,11 @@ public class Trail_info extends AppCompatActivity {
         trail_difficulty = findViewById(R.id.trail_difficulty);
         locais = findViewById(R.id.locais);
         imageView = findViewById(R.id.image);
+
+        Button botao = findViewById(R.id.botao_compartilhado);
+        BotaoSOS botaoSOS = new BotaoSOS(this);
+        botao.setOnClickListener(botaoSOS);
+
         trail_name.setText(a.getTrail_name());
         trail_desc.setText(a.getTrail_desc());
         trail_duration.setText("Duration: " + a.getTrail_duration() + " minutes");

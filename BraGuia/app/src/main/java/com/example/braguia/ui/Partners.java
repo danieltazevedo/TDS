@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.braguia.R;
+import com.example.braguia.model.Altera_tema;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +36,8 @@ public class Partners extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Altera_tema tema = new Altera_tema();
+        tema.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reciclyview);
         ButterKnife.bind(this);

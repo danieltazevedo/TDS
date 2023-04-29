@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_maps"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <fragment
         android:id="@+id/myMap"
@@ -11,15 +17,15 @@
         android:layout_height="match_parent"
         tools:context=".ui.Maps_Activity" />
 
-    <Button
-        android:id="@+id/trail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trails"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
+        <Button
+            android:id="@+id/trail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trails"
+            android:layout_gravity="bottom|center_horizontal" />
 
-    <Button
+
+        <Button
         android:id="@+id/center"
         android:layout_width="56dp"
         android:layout_height="56dp"
@@ -27,5 +33,14 @@
 
     <include layout="@layout/emergency_button"/>
 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</RelativeLayout>
+    <com.google.android.material.navigation.NavigationView
+    android:id="@+id/navigation_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    app:menu="@menu/navigation_menu" />
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

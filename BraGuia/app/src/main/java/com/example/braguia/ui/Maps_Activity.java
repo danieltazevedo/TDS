@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -16,17 +17,21 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.braguia.model.Altera_tema;
 import com.example.braguia.model.BotaoSOS;
 import com.example.braguia.model.Trail.Point;
 import com.example.braguia.R;
@@ -34,6 +39,7 @@ import com.example.braguia.model.DirectionsAsyncTask;
 import com.example.braguia.model.LocationService;
 import com.example.braguia.model.Trail;
 import com.example.braguia.model.maps_model;
+import com.example.braguia.model.menu;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -57,12 +63,27 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     private Button center;
     private Trail trail;
     private Activity mActivity;
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+    private int dist;
+    private boolean notf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Altera_tema tema = new Altera_tema();
+        tema.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         mActivity = this;
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getSharedPreferences("app_settings", MODE_PRIVATE);
+        dist = sharedPreferences.getInt("Distance", 1000);
+        notf = sharedPreferences.getBoolean("Notifications", true);
+
+        drawerLayout = findViewById(R.id.layout_maps);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+        menu.setupDrawer(getApplicationContext(),this, drawerLayout, actionBarDrawerToggle);
+
         trail = (Trail) getIntent().getSerializableExtra("trail_info");
 
         Button botao = findViewById(R.id.botao_compartilhado);
@@ -206,55 +227,56 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         @Override
         public void onReceive(Context context, Intent intent) {
            if (intent.getAction().equals(LocationService.ACTION_LOCATION_UPDATE)) {
-                double latitude = intent.getDoubleExtra("latitude", 0);
-                double longitude = intent.getDoubleExtra("longitude", 0);
-                location = new LatLng(latitude, longitude);
-                if (currentLocationMarker == null) {
-                    CircleOptions circleOptions = new CircleOptions()
-                            .fillColor(Color.BLACK)
-                            .strokeWidth(0)
-                            .center(location)
-                            .radius(15);
-                    currentLocationMarker = mMap.addCircle(circleOptions);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
-                } else {
-                    currentLocationMarker.setCenter(location);
-                }
+               double latitude = intent.getDoubleExtra("latitude", 0);
+               double longitude = intent.getDoubleExtra("longitude", 0);
+               location = new LatLng(latitude, longitude);
+               if (currentLocationMarker == null) {
+                   CircleOptions circleOptions = new CircleOptions()
+                           .fillColor(Color.BLACK)
+                           .strokeWidth(0)
+                           .center(location)
+                           .radius(15);
+                   currentLocationMarker = mMap.addCircle(circleOptions);
+                   mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+               } else {
+                   currentLocationMarker.setCenter(location);
+               }
+                if(notf) {
+               List<Trail.Edge> list = trail.getEdges();
+               for (int i = 0; i < list.size(); i++) {
+                   Point start = list.get(i).getpoint_start();
+                   latitude = start.getLat();
+                   longitude = start.getLng();
+                   Location pointOfInterest = new Location("");
+                   pointOfInterest.setLatitude(latitude);
+                   pointOfInterest.setLongitude(longitude);
 
-                List<Trail.Edge> list = trail.getEdges();
-                for (int i = 0; i < list.size(); i++) {
-                    Point start = list.get(i).getpoint_start();
-                    latitude = start.getLat();
-                    longitude = start.getLng();
-                    Location pointOfInterest = new Location("");
-                    pointOfInterest.setLatitude(latitude);
-                    pointOfInterest.setLongitude(longitude);
+                   Location currentLocation = new Location("");
+                   currentLocation.setLatitude(location.latitude);
+                   currentLocation.setLongitude(location.longitude);
 
-                    Location currentLocation = new Location("");
-                    currentLocation.setLatitude(location.latitude);
-                    currentLocation.setLongitude(location.longitude);
+                   float distance = currentLocation.distanceTo(pointOfInterest);
+                   if (distance < dist) {
+                       addNotification(start);
+                   }
+               }
 
-                    float distance = currentLocation.distanceTo(pointOfInterest);
-                    if (distance < 1000) {
-                        addNotification(start);
-                    }
-                }
+               Point end = list.get(list.size() - 1).getpoint_start();
+               latitude = end.getLat();
+               longitude = end.getLng();
+               Location pointOfInterest = new Location("");
+               pointOfInterest.setLatitude(latitude);
+               pointOfInterest.setLongitude(longitude);
 
-                Point end = list.get(list.size()-1).getpoint_start();
-                latitude = end.getLat();
-                longitude = end.getLng();
-                Location pointOfInterest = new Location("");
-                pointOfInterest.setLatitude(latitude);
-                pointOfInterest.setLongitude(longitude);
+               Location currentLocation = new Location("");
+               currentLocation.setLatitude(location.latitude);
+               currentLocation.setLongitude(location.longitude);
 
-                Location currentLocation = new Location("");
-                currentLocation.setLatitude(location.latitude);
-                currentLocation.setLongitude(location.longitude);
-
-                float distance = currentLocation.distanceTo(pointOfInterest);
-                if (distance < 1000) {
-                    addNotification(end);
-                }
+               float distance = currentLocation.distanceTo(pointOfInterest);
+               if (distance < dist) {
+                   addNotification(end);
+               }
+           }
             }
         }
     };
@@ -318,6 +340,12 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         Intent serviceIntent = new Intent(this, LocationService.class);
         serviceIntent.setAction(LocationService.ACTION_STOP_LOCATION_SERVICE);
         startService(serviceIntent);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return menu.onOptionsItemSelected(item, actionBarDrawerToggle) || super.onOptionsItemSelected(item);
     }
 }
 

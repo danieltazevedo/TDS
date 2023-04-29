@@ -11,11 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.braguia.R;
+import com.example.braguia.model.Altera_tema;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,6 +44,8 @@ public class Contacts extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Altera_tema tema = new Altera_tema();
+        tema.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reciclyview);
         ButterKnife.bind(this);
@@ -100,4 +107,5 @@ public class Contacts extends AppCompatActivity {
             dataList.add(dataMAp);
         }
     }
+
 }

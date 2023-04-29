@@ -2,6 +2,7 @@ package com.example.braguia.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.braguia.R;
+import com.example.braguia.model.Altera_tema;
 import com.example.braguia.model.BotaoSOS;
 
 import java.io.OutputStream;
@@ -29,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Altera_tema a = new Altera_tema();
+        a.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
@@ -83,6 +87,12 @@ public class LoginActivity extends AppCompatActivity {
                 os.close();
 
                 if (conn.getResponseCode() == 200) {
+                    String csrftoken = conn.getHeaderField("Set-Cookie").split(";")[0];
+                    String sessionid = conn.getHeaderField("Set-Cookie").split(";")[1];
+                    SharedPreferences SharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
+                    SharedPreferences.edit().putString("csrftoken", csrftoken).apply();//
+                    SharedPreferences.edit().putString("sessionid", sessionid).apply();
+
                     Intent intent = new Intent(LoginActivity.this, Trails_activity.class);
                     startActivity(intent);
                     finish();

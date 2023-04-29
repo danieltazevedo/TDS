@@ -14,6 +14,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.braguia.R;
+import com.example.braguia.model.Altera_tema;
 import com.example.braguia.model.Audio_Request;
 import com.example.braguia.model.BotaoSOS;
 import com.example.braguia.model.Video_Request;
@@ -40,6 +41,8 @@ public class Marker_info extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Altera_tema tema = new Altera_tema();
+        tema.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.marker_info);
         point = (Point) getIntent().getSerializableExtra("point_info");
@@ -50,9 +53,6 @@ public class Marker_info extends AppCompatActivity {
         videoView = findViewById(R.id.videoView);
         play = findViewById(R.id.Play);
         pause = findViewById(R.id.Pause);
-        Button botao = findViewById(R.id.botao_compartilhado);
-        BotaoSOS botaoSOS = new BotaoSOS(this);
-        botao.setOnClickListener(botaoSOS);
 
         name.setText(point.getName());
         desc.setText(point.getDesc());

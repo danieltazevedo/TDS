@@ -37,7 +37,6 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.name.setText(mValues.get(position).getTrail_name());
-        holder.desc.setText(mValues.get(position).getTrail_desc());
         Picasso.get().load(mValues.get(position).getUrl().replace("http", "https")).into(holder.imageView);
         holder.info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +60,6 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
         public final View mView;
         public final TextView name;
         public final ImageView imageView;
-        public final TextView desc;
         public Trail mItem;
 
         public ViewHolder(View view) {
@@ -69,7 +67,6 @@ public class TrailsRecyclerViewAdapter extends RecyclerView.Adapter<TrailsRecycl
             mView = view;
             name = (TextView) view.findViewById(R.id.trail_name);
             imageView = view.findViewById(R.id.cardimage);
-            desc = view.findViewById(R.id.trail_desc);
             info = view.findViewById(R.id.info);
         }
 

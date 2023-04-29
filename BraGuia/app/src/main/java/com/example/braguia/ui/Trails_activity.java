@@ -2,6 +2,8 @@ package com.example.braguia.ui;
 
 
 import android.os.Bundle;
+
+import com.example.braguia.model.Altera_tema;
 import com.example.braguia.model.menu;
 
 import android.view.MenuItem;
@@ -22,6 +24,8 @@ public class Trails_activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Altera_tema tema = new Altera_tema();
+        tema.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_trails);
 
@@ -29,9 +33,9 @@ public class Trails_activity extends AppCompatActivity {
         BotaoSOS botaoSOS = new BotaoSOS(this);
         botao.setOnClickListener(botaoSOS);
 
-        drawerLayout = findViewById(R.id.my_drawer_layout);
+        drawerLayout = findViewById(R.id.layout_trails);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
-        menu.setupDrawer(this, drawerLayout, actionBarDrawerToggle);
+        menu.setupDrawer(getApplicationContext(),this, drawerLayout, actionBarDrawerToggle);
     }
 
     @Override

@@ -3,16 +3,22 @@ package com.example.braguia.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.braguia.R;
+import com.example.braguia.model.Altera_tema;
 import com.example.braguia.model.BotaoSOS;
 import com.example.braguia.model.Trail;
+import com.example.braguia.model.menu;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -26,9 +32,13 @@ public class Trail_info extends AppCompatActivity {
     private ImageView imageView;
     private Button Start;
     private Button back;
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Altera_tema tema = new Altera_tema();
+        tema.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.info_trail);
         Trail a = (Trail) getIntent().getSerializableExtra("trail_info");
@@ -53,7 +63,7 @@ public class Trail_info extends AppCompatActivity {
             Trail.Point start = list.get(i).getpoint_start();
             string = string + start.getName() +"\n";
         }
-        string = string + list.get(list.size()-1).getpoint_end().getName() + "\n";
+        string = string + list.get(list.size()-1).getpoint_end().getName() + "\n\n\n\n\n";
         locais.setText(string);
         Picasso.get().load(a.getUrl().replace("http", "https")).into(imageView);
         Start = findViewById(R.id.start);
@@ -77,5 +87,19 @@ public class Trail_info extends AppCompatActivity {
             }
         });
 
+        drawerLayout = findViewById(R.id.info_trail);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+        menu.setupDrawer(getApplicationContext(),this, drawerLayout, actionBarDrawerToggle);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return menu.onOptionsItemSelected(item, actionBarDrawerToggle) || super.onOptionsItemSelected(item);
     }
 }

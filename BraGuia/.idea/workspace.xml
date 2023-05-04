@@ -13,32 +13,14 @@
   <component name="ChangeListManager">
     <list default="true" id="aaff2321-6c09-4b98-8a0b-81060c1a2468" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/model/menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/model/menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Contacts.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Contacts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/LoginActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Maps_Activity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Maps_Activity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Marker_info.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Marker_info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Partners.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Partners.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Socials.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Socials.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Trail_info.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Trail_info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/TrailsRecyclerViewAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/TrailsRecyclerViewAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Trails_activity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/Trails_activity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/pagina_inicial.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/braguia/ui/pagina_inicial.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_maps.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_maps.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/info_trail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/info_trail.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_trails.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_trails.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/menu_left_side.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[ce28cc3b]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\jogos\.android\avd\Resizable_Experimental_API_UpsideDownCake.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

@@ -278,6 +278,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
                    currentLocation.setLongitude(location.longitude);
 
                    float distance = currentLocation.distanceTo(pointOfInterest);
+                   dist = sharedPreferences_settings.getInt("Distance", 1000);
                    if (distance < dist) {
                        visited.add(start.getName());
                        Gson gson = new Gson();
@@ -362,7 +363,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     protected void onResume() {
         super.onResume();
         sharedPreferences_settings = getSharedPreferences("app_settings", MODE_PRIVATE);
-        dist = sharedPreferences_settings.getInt("Distance", 1000);
         IntentFilter filter = new IntentFilter(LocationService.ACTION_LOCATION_UPDATE);
         LocalBroadcastManager.getInstance(this).registerReceiver(locationUpdateReceiver, filter);
     }

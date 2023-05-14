@@ -2,6 +2,7 @@ package com.example.braguia.ui;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.service.notification.StatusBarNotification;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -140,7 +142,6 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         List<Trail.Edge> list = trail.getEdges();
-        System.out.println(location);
 
         for (int i = 0; i < list.size(); i++) {
             Trail.Point start = list.get(i).getpoint_start();
@@ -287,7 +288,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
                        SharedPreferences.Editor editor = sharedPreferences_visited.edit();
                        editor.putString("locals", listaJSON);
                        editor.apply();
-                       addNotification(start);
+                       addNotification(start, 1);
                    }
                }
 
@@ -310,7 +311,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
                    SharedPreferences.Editor editor = sharedPreferences_visited.edit();
                    editor.putString("locals", listaJSON);
                    editor.apply();
-                   addNotification(end);
+                   addNotification(end, 1);
 
                }
 
@@ -318,7 +319,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         }
     };
 
-    private void addNotification(Point point) {
+    private void addNotification(Point point, int notificationId) {
         notf = sharedPreferences_settings.getBoolean("Notifications", true);
         if (notf) {
             String channelId = "default";
@@ -354,7 +355,21 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
             builder.setContentIntent(pendingIntent);
 
             NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(0, builder.build());
+            StatusBarNotification[] activeNotifications = manager.getActiveNotifications();
+
+            // Verifica se a notificação com o mesmo ID já está ativa
+            boolean notificationExists = false;
+            for (StatusBarNotification notification : activeNotifications) {
+                if (notification.getId() == notificationId) {
+                    notificationExists = true;
+                    break;
+                }
+            }
+
+            // Exibe a notificação somente se não estiver ativa
+            if (!notificationExists) {
+                manager.notify(notificationId, builder.build());
+            }
         }
     }
 

@@ -75,6 +75,8 @@ public class Setings extends AppCompatActivity {
             }
         });
 
+
+
         Notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -97,6 +99,7 @@ public class Setings extends AppCompatActivity {
                 Context context = view.getContext();
                 Intent intent = new Intent(Setings.this, Trails_activity.class);
                 context.startActivity(intent);
+                finish();
             }
         });
 
@@ -106,6 +109,7 @@ public class Setings extends AppCompatActivity {
                 Context context = view.getContext();
                 Intent intent = new Intent(Setings.this, Trails_activity.class);
                 context.startActivity(intent);
+                finish();
             }
         });
     }

@@ -49,8 +49,15 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
 
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -65,8 +72,12 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     private Activity mActivity;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+    private SharedPreferences sharedPreferences_settings;;
     private int dist;
     private boolean notf;
+    private Set<String> visited = new HashSet<>();
+    private  SharedPreferences sharedPreferences_visited;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +86,14 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         mActivity = this;
-        SharedPreferences sharedPreferences;
-        sharedPreferences = getSharedPreferences("app_settings", MODE_PRIVATE);
-        dist = sharedPreferences.getInt("Distance", 1000);
-        notf = sharedPreferences.getBoolean("Notifications", true);
+
+        sharedPreferences_visited = getSharedPreferences("visited", MODE_PRIVATE);
+        String listaJSON = sharedPreferences_visited.getString("locals",null);
+        if (listaJSON != null) {
+            Type type = new TypeToken<Set<String>>(){}.getType();
+            Gson gson = new Gson();
+            visited = gson.fromJson(listaJSON, type);
+        }
 
         drawerLayout = findViewById(R.id.layout_maps);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
@@ -125,6 +140,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         List<Trail.Edge> list = trail.getEdges();
+        System.out.println(location);
 
         for (int i = 0; i < list.size(); i++) {
             Trail.Point start = list.get(i).getpoint_start();
@@ -137,8 +153,8 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
             LatLng location_end = new LatLng(latitude_end, longitude_end);
             mMap.addMarker(new MarkerOptions().position(location_start).title(start.getName()));
 
-            DirectionsAsyncTask task = new DirectionsAsyncTask(Maps_Activity.this, mMap, location_start, location_end);
-            task.execute();
+            DirectionsAsyncTask task2 = new DirectionsAsyncTask(Maps_Activity.this, mMap, location_start, location_end);
+            task2.execute();
         }
 
         Trail.Point end = list.get(list.size() - 1).getpoint_end();
@@ -241,8 +257,14 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
                } else {
                    currentLocationMarker.setCenter(location);
                }
-                if(notf) {
+
                List<Trail.Edge> list = trail.getEdges();
+               if (location!=null) {
+                   Trail.Point point_start = list.get(0).getpoint_start();
+                   LatLng point_start_coord = new LatLng(point_start.getLat(), point_start.getLng());
+                   DirectionsAsyncTask task1 = new DirectionsAsyncTask(Maps_Activity.this, mMap, location, point_start_coord);
+                   task1.execute();}
+
                for (int i = 0; i < list.size(); i++) {
                    Point start = list.get(i).getpoint_start();
                    latitude = start.getLat();
@@ -257,11 +279,18 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
 
                    float distance = currentLocation.distanceTo(pointOfInterest);
                    if (distance < dist) {
+                       visited.add(start.getName());
+                       Gson gson = new Gson();
+                       String listaJSON = gson.toJson(visited);
+
+                       SharedPreferences.Editor editor = sharedPreferences_visited.edit();
+                       editor.putString("locals", listaJSON);
+                       editor.apply();
                        addNotification(start);
                    }
                }
 
-               Point end = list.get(list.size() - 1).getpoint_start();
+               Point end = list.get(list.size() - 1).getpoint_end();
                latitude = end.getLat();
                longitude = end.getLng();
                Location pointOfInterest = new Location("");
@@ -271,57 +300,69 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
                Location currentLocation = new Location("");
                currentLocation.setLatitude(location.latitude);
                currentLocation.setLongitude(location.longitude);
-
                float distance = currentLocation.distanceTo(pointOfInterest);
                if (distance < dist) {
+                   visited.add(end.getName());
+                   Gson gson = new Gson();
+                   String listaJSON = gson.toJson(visited);
+
+                   SharedPreferences.Editor editor = sharedPreferences_visited.edit();
+                   editor.putString("locals", listaJSON);
+                   editor.apply();
                    addNotification(end);
+
                }
-           }
+
             }
         }
     };
 
     private void addNotification(Point point) {
-        String channelId = "default";
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.icon)
-                .setContentTitle("Nearby point of interest")
-                .setContentText("Are you close to "+point.getName())
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        notf = sharedPreferences_settings.getBoolean("Notifications", true);
+        if (notf) {
+            String channelId = "default";
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                    .setSmallIcon(R.drawable.icon)
+                    .setContentTitle("Nearby point of interest")
+                    .setContentText("Are you close to " + point.getName())
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "My Channel";
-            String description = "Channel description";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CharSequence name = "My Channel";
+                String description = "Channel description";
+                int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                NotificationChannel channel = new NotificationChannel(channelId, name, importance);
+                channel.setDescription(description);
+                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
+            }
+
+            Intent notificationIntent = new Intent(this, Marker_info.class);
+            notificationIntent.putExtra("point_info", point);
+            notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            notificationIntent.putExtra("message", "This is a notification message");
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(
+                    this,
+                    0,
+                    notificationIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+
+            builder.setContentIntent(pendingIntent);
+
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.notify(0, builder.build());
         }
-
-        Intent notificationIntent = new Intent(this, Marker_info.class);
-        notificationIntent.putExtra("point_info",point);
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        notificationIntent.putExtra("message", "This is a notification message");
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this,
-                0,
-                notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-
-        builder.setContentIntent(pendingIntent);
-
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, builder.build());
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
+        sharedPreferences_settings = getSharedPreferences("app_settings", MODE_PRIVATE);
+        dist = sharedPreferences_settings.getInt("Distance", 1000);
         IntentFilter filter = new IntentFilter(LocationService.ACTION_LOCATION_UPDATE);
         LocalBroadcastManager.getInstance(this).registerReceiver(locationUpdateReceiver, filter);
     }

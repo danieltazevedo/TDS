@@ -12,6 +12,10 @@
         android:title="Settings" />
 
     <item
+        android:id="@+id/nav_locals"
+        android:title="Places Visited" />
+
+    <item
         android:id="@+id/nav_logout"
         android:title="Logout" />
 

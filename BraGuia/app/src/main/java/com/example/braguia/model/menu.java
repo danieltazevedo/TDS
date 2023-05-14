@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.braguia.R;
 import com.example.braguia.ui.Setings;
+import com.example.braguia.ui.Visited_activity;
 import com.example.braguia.ui.pagina_inicial;
 import com.example.braguia.ui.user_info;
 import com.google.android.material.navigation.NavigationView;
@@ -49,6 +50,9 @@ public class menu {
                     case R.id.nav_settings:
                         intent = new Intent(activity, Setings.class);
                         break;
+                    case R.id.nav_locals:
+                        intent = new Intent(activity, Visited_activity.class);
+                        break;
                     case R.id.nav_logout:
                         Logout_Request lr = new Logout_Request(context,activity);
                         lr.execute();
@@ -56,6 +60,7 @@ public class menu {
                 }
                 if (intent != null) {
                     activity.startActivity(intent);
+                    activity.finish();  // Finalizar a atividade atual
                     drawerLayout.closeDrawers();
                     return true;
                 }

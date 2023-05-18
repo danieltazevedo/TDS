@@ -127,6 +127,7 @@ public class Maps_Activity extends AppCompatActivity implements OnMapReadyCallba
                 finish();
             }
         });
+        
         if (locationPermissionGranted) {
         center = findViewById(R.id.center);
         center.setOnClickListener(new View.OnClickListener() {

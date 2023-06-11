@@ -30,14 +30,14 @@ const Login = ({ navigation }) => {
         if (response.status === 200) {
           
 
-          navigation.navigate('PaginaInicial');
+          navigation.navigate('TrailsActivity');
           
         } else {
           ToastAndroid.show('Incorrect username or password!', ToastAndroid.SHORT);
         }
     })
       .catch(error => {
-        ToastAndroid.show('Error connecting to server', ToastAndroid.SHORT);
+        ToastAndroid.show('Incorrect username or password!', ToastAndroid.SHORT);
         console.error(error);
       });      
   };

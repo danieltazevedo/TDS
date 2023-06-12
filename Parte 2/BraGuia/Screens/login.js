@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ToastAndroid } from 'react-native';
+import { View, Text, TextInput, Button ,TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native';
 import axios from 'axios';
-
+import call from 'react-native-phone-call';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -42,6 +43,18 @@ const Login = ({ navigation }) => {
       });      
   };
 
+  const handleCallEmergency = () => {
+    const phoneNumber = '112';
+    const args = {
+      number: phoneNumber,
+      prompt: false,
+    };
+    call(args).catch(error => {
+      ToastAndroid.show('Failed to make the call!', ToastAndroid.SHORT);
+      console.error(error);
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign in</Text>
@@ -61,6 +74,11 @@ const Login = ({ navigation }) => {
       />
       <Button title="Login" onPress={handleLogin} />
       <Button title="Back" onPress={handleBack} />
+      <View style={styles.emergencyButtonContainer}>
+      <TouchableOpacity onPress={handleCallEmergency} style={styles.emergencyButton}>
+        <Icon name="phone" size={24} color="red" style={styles.emergencyIcon} />
+      </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -83,6 +101,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingHorizontal: 8,
+  },
+  emergencyButtonContainer: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+  },
+  emergencyIcon: {
+    marginRight: 10,
   },
 });
 

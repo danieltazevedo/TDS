@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View, Button, TouchableOpacity } from 'react-native';
 import MapView, { Circle, Marker, Polyline } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
+import call from 'react-native-phone-call';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const MapsScreen = ({ route, navigation }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -30,6 +32,17 @@ const MapsScreen = ({ route, navigation }) => {
     navigation.navigate('MarkerInfo', { item: value });
   };
   
+  const handleCallEmergency = () => {
+    const phoneNumber = '112';
+    const args = {
+      number: phoneNumber,
+      prompt: false,
+    };
+    call(args).catch(error => {
+      ToastAndroid.show('Failed to make the call!', ToastAndroid.SHORT);
+      console.error(error);
+    });
+  };
 
   const getDirections = async () => {
     try {
@@ -183,8 +196,14 @@ const MapsScreen = ({ route, navigation }) => {
           />
         )}
       </MapView>
-      
+      <View style={styles.emergencyButtonContainer}>
+        <TouchableOpacity onPress={handleCallEmergency} style={styles.emergencyButton}>
+          <Icon name="phone" size={24} color="red" style={styles.emergencyIcon} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.trailsButtonContainer}>
       <Button title="Trails" onPress={handleTrails} />
+      </View>
     </View>
   );
 };
@@ -195,6 +214,30 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
+  },
+  trailsButtonContainer: {
+    position: 'absolute',
+    bottom: 16,
+    alignSelf: 'center',
+  },
+  trailsButton: {
+    backgroundColor: 'blue',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+  },
+  trailsButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  emergencyButtonContainer: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+  },
+  emergencyIcon: {
+    marginRight: 10,
   },
 });
 

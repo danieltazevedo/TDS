@@ -5,6 +5,8 @@ import PaginaInicial from './Screens/pagina-inicial';
 import Login from './Screens/login';
 import TrailsActivity from './Screens/trailsActivity'
 import TrailInfo from './Screens/trailInfo'
+import MapsScreen from './Screens/mapsScreen'
+import MarkerInfo from './Screens/markerInfo'
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +18,8 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="TrailsActivity" component={TrailsActivity} />
         <Stack.Screen name="TrailInfo" component={TrailInfo} />
+        <Stack.Screen name="MapsScreen" component={MapsScreen} />
+        <Stack.Screen name="MarkerInfo" component={MarkerInfo} />
       </Stack.Navigator>
     </NavigationContainer>
   );

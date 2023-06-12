@@ -5,7 +5,7 @@ const TrailInfo = ({ route, navigation }) => {
   const { item } = route.params;
 
   const handleStartTrail = () => {
-    navigation.navigate('Maps_Activity', { item });
+    navigation.navigate('MapsScreen', { item });
   };
 
   const handleBack = () => {

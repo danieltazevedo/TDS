@@ -7,6 +7,18 @@ const PaginaInicial = ({ navigation }) => {
   const [descricao, setDescricao] = useState('');
   const [pageText, setPageText] = useState('');
 
+  const handleSocials = () => {
+    navigation.navigate('Socials');
+  };
+
+  const handlePartners = () => {
+    navigation.navigate('Partners');
+  };
+
+  const handleContacts = () => {
+    navigation.navigate('Contacts');
+  };
+
   useEffect(() => {
     checkCache();
   }, []);
@@ -66,9 +78,9 @@ const PaginaInicial = ({ navigation }) => {
       <Button title="Login" onPress={handleLogin} />
 
       <View style={styles.buttonsContainer}>
-        <Button title="Contacts" />
-        <Button title="Partners" />
-        <Button title="Socials" />
+        <Button title="Contacts" onPress={handleContacts}/>
+        <Button title="Partners" onPress={handlePartners} />
+        <Button title="Socials " onPress={handleSocials}/>
       </View>
     </View>
   );

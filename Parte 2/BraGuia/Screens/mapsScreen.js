@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
   emergencyButtonContainer: {
     position: 'absolute',
-    bottom: 16,
+    bottom: 66,
     right: 16,
   },
   emergencyIcon: {
